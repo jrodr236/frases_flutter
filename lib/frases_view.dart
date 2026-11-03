@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'frases_viewmodel.dart';
 
-class FrasesView extends StatelessWidget {
-  final viewModel = FraseViewModel();
+class FrasesView extends StatefulWidget {
+  // Si l'estat el gestiona un ViewModel extern (com ChangeNotifier), la vista NO necessita ser StatefulWidget.
+  // Amb StatefulWidget podem controlar el cicle de vida (initState i dispose).
+  const FrasesView({super.key});
 
-  FrasesView({super.key});
+  @override
+  State<FrasesView> createState() => _FrasesViewState();
+}
+
+class _FrasesViewState extends State<FrasesView> {
+  late final FraseViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = FraseViewModel(); // S'instancia una sola vegada quan es crea la pantalla
+  }
+
+  @override
+  void dispose() {
+    viewModel.dispose(); // S'alliberen recursos si el ViewModel ho requereix
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +32,6 @@ class FrasesView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Reacciona automàticament al notifyListeners() del ViewModel
             ListenableBuilder(
               listenable: viewModel,
               builder: (context, child) {
