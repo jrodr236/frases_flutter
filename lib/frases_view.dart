@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'frases_viewmodel.dart';
 
 class FrasesView extends StatelessWidget {
-  const FrasesView({super.key});
+  final viewModel = FraseViewModel();
+
+  FrasesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +13,18 @@ class FrasesView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('"Hi ha 10 tipus de persones al món: les que entenen el sistema binari i les que no."'),
+            // Reacciona automàticament al notifyListeners() del ViewModel
+            ListenableBuilder(
+              listenable: viewModel,
+              builder: (context, child) {
+                return Text(
+                  viewModel.fraseActual,
+                  textAlign: TextAlign.center,
+                );
+              },
+            ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: viewModel.seguentFrase,
               child: const Text('Nova frase'),
             ),
           ],
