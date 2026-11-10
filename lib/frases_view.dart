@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'frases_viewmodel.dart';
 
-class FrasesView extends StatelessWidget {
+class FrasesView extends StatefulWidget {
+  const FrasesView({super.key});
+
+  @override
+  State<FrasesView> createState() => _FrasesViewState();
+}
+
+class _FrasesViewState extends State<FrasesView> {
   final viewModel = FraseViewModel();
 
-  FrasesView({super.key});
+  @override
+  void initState() {
+    super.initState();
+    // Carrega una frase automàticament en obrir la pantalla
+    viewModel.seguentFrase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +27,6 @@ class FrasesView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Reacciona als canvis d'estat del ViewModel
               ListenableBuilder(
                 listenable: viewModel,
                 builder: (context, child) {
@@ -55,7 +66,7 @@ class FrasesView extends StatelessWidget {
                     );
                   }
 
-                  return const Text('Prem el botó per carregar una frase');
+                  return const SizedBox.shrink();
                 },
               ),
               const SizedBox(height: 30),
